@@ -65,6 +65,7 @@ completely with `C-g'."
 		  (looking-at bef)
 		  (not (or
 			(texmathp)
+			(TeX-in-comment)
 			(czm-spell--inside-ref-label-or-cite-p)
 			(looking-back
 			 (regexp-opt

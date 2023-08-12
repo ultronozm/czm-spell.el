@@ -65,7 +65,7 @@ completely with `C-g'."
 		  (looking-at bef)
 		  (not (or
 			(texmathp)
-			(czm-spell---inside-ref-label-or-cite-p)
+			(czm-spell--inside-ref-label-or-cite-p)
 			(looking-back
 			 (regexp-opt
 			  (list
@@ -99,7 +99,7 @@ completely with `C-g'."
                      bef aft (if p "loc" "glob"))))
       (user-error "No typo at or before point"))))
 
-(defun czm-spell---inside-ref-label-or-cite-p ()
+(defun czm-spell--inside-ref-label-or-cite-p ()
   "Determine if point is in a reference, label, or citation."
   (interactive)
   (save-excursion
@@ -109,7 +109,7 @@ completely with `C-g'."
 			  (concat
 			   "\\\\"
 			   (regexp-opt
-			    '("eqref" "ref" "label" "cite" "begin" "end")))
+			    '("eqref" "ref" "href" "label" "cite" "begin" "end")))
 			  start-of-line t)))
       (if (and open-command (< open-command cur-point))
 	  (progn

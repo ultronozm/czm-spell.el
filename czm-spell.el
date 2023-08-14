@@ -3,7 +3,7 @@
 ;; Copyright (C) 2023  Paul D. Nelson
 
 ;; Author: Paul D. Nelson <nelson.paul.david@gmail.com>
-;; Version: 1.0
+;; Version: 0.1
 ;; URL: https://github.com/ultronozm/czm-spell.el
 ;; Package-Requires: ((emacs "25.1"))
 ;; Keywords: tex, tools, abbrev, convenience
@@ -34,6 +34,16 @@
 ;; Some of the code here was adapted from
 ;; https://endlessparentheses.com/ispell-and-abbrev-the-perfect-auto-correct.html,
 ;; with some TeX-specific tweaks.
+;;
+;; My use-package declaration:
+;; 
+;; (use-package czm-spell
+;;   :vc (:url "https://github.com/ultronozm/czm-spell.el.git"
+;; 	    :rev :newest)
+;;   :bind ("s-;" . czm-spell-then-abbrev))
+;;
+;;
+;;  TODO: compare with (flyspell-abbrev-p t)?  Maybe something?
 
 ;;; Code:
 

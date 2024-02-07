@@ -5,7 +5,7 @@
 ;; Author: Paul D. Nelson <nelson.paul.david@gmail.com>
 ;; Version: 0.0
 ;; URL: https://github.com/ultronozm/czm-spell.el
-;; Package-Requires: ((emacs "25.1"))
+;; Package-Requires: ((emacs "25.1") (auctex))
 ;; Keywords: tex, tools, abbrev, convenience
 
 ;; This program is free software; you can redistribute it and/or modify

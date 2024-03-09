@@ -78,8 +78,8 @@ completely with `C-g'."
 		                (not (or
 			                     (texmathp)
                         (and
-                                        ; in latex mode
-                         (eq major-mode 'latex-mode)
+                         (or (eq major-mode 'latex-mode)
+                             (eq major-mode 'LaTeX-mode))
 			                      (TeX-in-comment))
 			                     (czm-spell--inside-ref-label-or-cite-p)
 			                     (looking-back
@@ -122,12 +122,14 @@ completely with `C-g'."
   (save-excursion
     (let* ((cur-point (point))
 	          (start-of-line (line-beginning-position))
-	          (open-command (search-backward-regexp
-			                       (concat
-			                        "\\\\"
-			                        (regexp-opt
-			                         '("eqref" "ref" "href" "label" "cite" "begin" "end")))
-			                       start-of-line t)))
+	          (open-command
+            (let ((case-fold-search nil))
+              (search-backward-regexp
+			            (concat
+			             "\\\\"
+			             (regexp-opt
+			              '("eqref" "ref" "href" "label" "cite" "begin" "end")))
+			            start-of-line t))))
       (if (and open-command (< open-command cur-point))
 	         (progn
 	           (goto-char cur-point)

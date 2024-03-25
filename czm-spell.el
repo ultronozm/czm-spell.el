@@ -49,7 +49,7 @@
 
 (require 'ispell)
 (require 'tex)
-(require 'latex)
+(require 'cl-lib)
 (require 'flyspell)
 
 (defvar czm-spell--save-as-abbrev t
@@ -76,7 +76,13 @@ completely with `C-g'."
 		                (setq bef (car-safe (save-excursion (ignore-errors (ispell-get-word t)))))
 		                (looking-at bef)
 		                (not (or
-			                     (texmathp)
+                        (let ((face (plist-get (text-properties-at (point))
+                                               'face)))
+                          (or
+                           (memq face '(tex-math font-latex-math-face))
+                           (and (listp face)
+                                (or (memq 'tex-math face)
+                                    (memq 'font-latex-math-face face)))))
                         (and
                          (or (eq major-mode 'latex-mode)
                              (eq major-mode 'LaTeX-mode))
@@ -154,7 +160,7 @@ Returns 0 to insert locally into buffer-local dictionary.
 Returns string for new chosen word.
 Returns list for new replacement word (will be rechecked).
   Query-replace when list length is 2.
-  Automatic query-replace when second element is `'query-replace'.
+  Automatic query-replace when second element is `query-replace'.
 Highlights the word, which is assumed to run from START to END.
 Global `ispell-pdict-modified-p' becomes a list where the only value
 indicates whether the dictionary has been modified when option `a'

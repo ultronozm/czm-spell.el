@@ -91,7 +91,7 @@ completely with `C-g'."
 			                     (looking-back
 			                      (regexp-opt
 			                       (list
-			                        "\\" "[" "{"))
+			                        "\\" "[" "{" "}"))
 			                      (1- (point))))))
                  ;; Word was corrected or used quit.
 		               (let ((result (ispell-word t 'quiet)))

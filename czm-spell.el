@@ -67,15 +67,18 @@ completely with `C-g'."
   (interactive "P")
   (setq czm-spell--save-as-abbrev t)
   (let ((start (window-start))
- 	      bef aft)
+        bef aft)
     (save-excursion
       (backward-word)
       (while (if (and
-		                (>= (point)
+                  (>= (point)
                       start)
-		                (setq bef (car-safe (save-excursion (ignore-errors (ispell-get-word t)))))
-		                (looking-at bef)
-		                (not (or
+                  (setq bef (car-safe
+                             (save-excursion
+                               (ignore-errors
+                                 (ispell-get-word t)))))
+                  (looking-at bef)
+                  (not (or
                         (let ((face (plist-get (text-properties-at (point))
                                                'face)))
                           (or
@@ -86,26 +89,26 @@ completely with `C-g'."
                         (and
                          (or (eq major-mode 'latex-mode)
                              (eq major-mode 'LaTeX-mode))
-			                      (TeX-in-comment))
-			                     (czm-spell--inside-ref-label-or-cite-p)
-			                     (looking-back
-			                      (regexp-opt
-			                       (list
-			                        "\\" "[" "{" "}"))
-			                      (1- (point))))))
+                         (or (TeX-in-comment)
+                             (czm-spell--inside-ref-label-or-cite-p)))
+                        (looking-back
+                         (regexp-opt
+                          (list
+                           "\\" "[" "{" "}"))
+                         (1- (point))))))
                  ;; Word was corrected or used quit.
-		               (let ((result (ispell-word t 'quiet)))
-		                 (if result
-		                     (progn
-			                      (when (not (eq result 'quit))
-			                        (setq aft
-				                             (if (stringp result)
-				                                 result
-				                               (car result))))
-			                      nil)
+                 (let ((result (ispell-word t 'quiet)))
+                   (if result
+                       (progn
+                         (when (not (eq result 'quit))
+                           (setq aft
+                                 (if (stringp result)
+                                     result
+                                   (car result))))
+                         nil)
                                         ; End the loop.
-		                   ;; Also end if we reach `bob'.
-		                   (not (bobp))))
+                     ;; Also end if we reach `bob'.
+                     (not (bobp))))
                ;; If there's no word at point, keep looking
                ;; until `bob'.
                (not (bobp)))
@@ -113,11 +116,11 @@ completely with `C-g'."
     (if (and aft bef (not (equal aft bef)))
         (let ((aft (downcase aft))
               (bef (downcase bef)))
-	         (when czm-spell--save-as-abbrev
-	           ;; (y-or-n-p (format "Expand \"%s\" to \"%s\"? " bef aft))
+          (when czm-spell--save-as-abbrev
+            ;; (y-or-n-p (format "Expand \"%s\" to \"%s\"? " bef aft))
             (define-abbrev
-	             (if p local-abbrev-table global-abbrev-table)
-	             bef aft)
+              (if p local-abbrev-table global-abbrev-table)
+              bef aft)
             (message "\"%s\" now expands to \"%s\" %sally"
                      bef aft (if p "loc" "glob"))))
       (user-error "No typo at or before point"))))
